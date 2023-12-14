@@ -1,30 +1,20 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
-
-//import { JwtService } from '@nestjs/jwt/dist';
-import * as bcrypt from 'bcrypt';
+import { Controller, Post, Body } from '@nestjs/common';
 
 import { AuthDto } from './dto/auth.dto';
-import { UserService } from 'src/user/user.service';
+import { AuthService } from './auth.service';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({
+    summary: '사용자 로그인 API',
+    description: '로그인을 진행한다.',
+  })
+  @ApiBody({ type: AuthDto })
   @Post('/login')
   async login(@Body() authDto: AuthDto) {
-    const { email, password } = authDto;
-
-    const user = await this.userService.findByEmail(email);
-    if (!user) {
-      throw new UnauthorizedException('이메일 또는 비밀번호를 확인해 주세요.');
-    }
-
-    const checkPassword = bcrypt.compareSync(password, user.password);
-
-    if (!checkPassword) {
-      throw new UnauthorizedException('이메일 또는 비밀번호를 확인해 주세요.');
-    }
-
-    return '로그인 완료';
+    return await this.authService.signin(authDto);
   }
 }
