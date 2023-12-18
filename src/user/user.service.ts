@@ -22,6 +22,14 @@ export class UserService {
     return await bcrypt.hash(password, 12);
   }
 
+  async getUserById(id: number) {
+    return await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   async findByEmail(email: string) {
     return await this.userRepository.findOne({
       where: {
