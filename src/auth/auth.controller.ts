@@ -2,11 +2,12 @@ import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
 
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
 
+@ApiTags('Auth API')
 @Controller('auth')
 export class AuthController {
   constructor(

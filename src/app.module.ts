@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UserEntity } from './user/entities/user.entitiy';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { ContactModule } from './contact/contact.module';
+import { ContactEntity } from './contact/entities/contact.entitiy';
 
 @Module({
   imports: [
@@ -19,11 +21,12 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DB_PASSWORD,
       database: 'myapp',
       //entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
-      entities: [UserEntity],
+      entities: [UserEntity, ContactEntity],
       synchronize: true,
     }),
     UserModule,
     AuthModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],

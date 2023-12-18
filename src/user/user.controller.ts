@@ -1,8 +1,9 @@
 import { Body, ConflictException, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignupDto } from './dto/user.signup.dto';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User API')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
