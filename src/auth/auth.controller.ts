@@ -2,12 +2,18 @@ import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
 
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './guard/local-auth.guard';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { UserService } from 'src/user/user.service';
 
+@ApiTags('Auth API')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @ApiOperation({
     summary: '사용자 로그인 API',
@@ -20,10 +26,14 @@ export class AuthController {
     return await this.authService.signin(authDto);
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Get('/')
+  @ApiOperation({
+    summary: '내 정보 조회 API',
+    description: '이메일, 닉네임 등을 조회한다.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
   async getProfile(@Req() req: any) {
-    const user = req.user;
-    return user;
+    const userId = req.user.id;
+    return await this.userService.getUserById(userId);
   }
 }
