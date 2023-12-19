@@ -20,4 +20,8 @@ export class ContactService {
   async findAll() {
     return await this.contactRepository.find();
   }
+
+  async delete(id: string) {
+    return await this.contactRepository.delete(id);
+  }
 }
