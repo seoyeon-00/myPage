@@ -19,7 +19,12 @@ import { ContactEntity } from './contact/entities/contact.entitiy';
       port: parseInt(process.env.PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: 'myapp',
+      database: process.env.DB_NAME,
+      extra: {
+        ssl: {
+          rejectUnauthorized: true,
+        },
+      },
       //entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
       entities: [UserEntity, ContactEntity],
       synchronize: true,
