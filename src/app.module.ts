@@ -20,11 +20,11 @@ import { ContactEntity } from './contact/entities/contact.entitiy';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      // extra: {
-      //   ssl: {
-      //     rejectUnauthorized: true,
-      //   },
-      // },
+      extra: {
+        ssl: {
+          rejectUnauthorized: true,
+        },
+      },
       //entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
       entities: [UserEntity, ContactEntity],
       synchronize: true,
